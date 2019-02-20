@@ -49,12 +49,15 @@ architecture default_arch of fifo_buffer is
     signal first: pointer;
     signal last: pointer;
 
-begin
+
+
 
     head <= buf(first);
-    counter <=  BUFFER_DEPTH when is_full else
-                last - first when (last >= first) else
-                BUFFER_DEPTH - (first - last);
+    counter <=  BUFFER_DEPTH 
+		when is_full 
+		else last - first 
+                when (last >= first) 
+		else BUFFER_DEPTH - (first - last);
 
     process(reset, clock)
         variable aux_first, aux_last: pointer;

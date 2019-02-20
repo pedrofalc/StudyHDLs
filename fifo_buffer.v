@@ -21,19 +21,21 @@
 module fifo_buffer  #(parameter BUFFER_WIDTH=23), #(parameter BUFFER_DEPTH=23)
 (
 input  clock,reset,push,pull,
-input [BUFFER_WIDTH-1:0]  tail,
-output[BUFFER_WIDTH-1:0] head,
-output [BUFFER_WIDTH-1:0]counter
+input [BUFFER_WIDTH-1:1]  tail,
+output[BUFFER_WIDTH-1:1] head,
+output [BUFFER_WIDTH-1:1]counter
 )
 
 function  myfunction;
 inout p;
 begin
-   myfunction =
    if p = BUFFER_DEPTH - 1 then
        p = 0;
    else
        p = p + 1;
    end if;
 end
+reg [BUFFER_WIDTH-1:1] buf [BUFFER_WIDTH-1:1];
+boolean reg is_full
+
  endfunction
