@@ -25,7 +25,6 @@ input [BUFFER_WIDTH-1:1]  tail,
 output reg [BUFFER_WIDTH-1:1] head,
 output reg[BUFFER_WIDTH-1:1]counter
 );
-
 reg p;   
 reg [BUFFER_WIDTH-1:1] buff [BUFFER_WIDTH-1:1];
 reg is_full;
@@ -37,8 +36,8 @@ always@(*)
     counter= (is_full)? BUFFER_DEPTH:(last >= first)? last - first:BUFFER_DEPTH - (first - last);       
     end
     
-reg [BUFFER_WIDTH-1:0] aux_first,aux_last;
-reg aux_is_full,is_empty;
+reg [$clog2(BUFFER_DEPTH):0]  aux_first,aux_last;
+reg [$clog2(BUFFER_DEPTH):0] aux_is_full,is_empty;
 always@(posedge clock,reset)
     begin     
        if (reset)      
@@ -74,9 +73,9 @@ always@(posedge clock,reset)
                                     end    
                                                 
                                  end                       
-           is_full= aux_is_full;
-           last=aux_last;
-           first=aux_first;  
+     assign is_full= aux_is_full;
+     assign last=aux_last;
+     assign first=aux_first;  
            end 
              
        end   
