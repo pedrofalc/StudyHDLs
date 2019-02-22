@@ -1,7 +1,7 @@
 //`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: UFC
-// Engineer: Pedro FalcÃ£o
+// Engineer: Pedro Falcão
 //
 // Create Date: 18.02.2019 20:31:56
 // Design Name:
@@ -21,12 +21,12 @@
 module buffer  #(parameter BUFFER_WIDTH=16,BUFFER_DEPTH=8)
 (
 input  clock,reset,push,pull,
-input [BUFFER_WIDTH-1:1]  tail,
-output reg [BUFFER_WIDTH-1:1] head,
-output reg[BUFFER_WIDTH-1:1]counter
+input [BUFFER_WIDTH-1:0]  tail,
+output reg [BUFFER_WIDTH-1:0] head,
+output reg[2:0]counter
 );
 reg p;   
-reg [BUFFER_WIDTH-1:1] buff [BUFFER_WIDTH-1:1];
+reg [BUFFER_WIDTH-1:0] buff [BUFFER_WIDTH-1:0];
 reg is_full;
 reg [BUFFER_WIDTH-1:0] first;
 reg [BUFFER_WIDTH-1:0] last;
@@ -36,9 +36,9 @@ always@(*)
     counter= (is_full)? BUFFER_DEPTH:(last >= first)? last - first:BUFFER_DEPTH - (first - last);       
     end
     
-reg [$clog2(BUFFER_DEPTH):0]  aux_first,aux_last;
-reg [$clog2(BUFFER_DEPTH):0] aux_is_full,is_empty;
-always@(posedge clock,reset)
+reg [$clog2(BUFFER_DEPTH-1):0]  aux_first,aux_last;
+reg [$clog2(BUFFER_DEPTH-1):0] aux_is_full,is_empty;
+always@(reset, posedge clock)
     begin     
        if (reset)      
            begin
@@ -48,7 +48,7 @@ always@(posedge clock,reset)
                is_empty=0;
            end
    
-            if (clock && reset==0)
+            if (clock) 
                 begin
                     aux_is_full= is_full;
                     aux_last= last;
